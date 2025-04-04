@@ -18,12 +18,14 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            -webkit-touch-callout: none; /* Disable long press on iOS */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            pointer-events: none; /* Disable all pointer interactions */
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
         }
     </style>
 </head>
@@ -33,11 +35,13 @@
         Your browser does not support the video tag.
     </video>
 
+    <!-- Transparent overlay to block touch -->
+    <div class="overlay"></div>
+
     <script>
-        // Prevent context menu (right-click/long-press)
+        // Disable right-click and long-press
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // Function to request full screen
         function requestFullScreen(element) {
             if (element.requestFullscreen) {
                 element.requestFullscreen();
@@ -50,9 +54,7 @@
             }
         }
 
-        // Auto-play and full screen
-        const video = document.getElementById('video');
-        video.addEventListener('loadedmetadata', function() {
+        document.getElementById('video').addEventListener('loadedmetadata', function () {
             this.play();
             requestFullScreen(this);
         });
